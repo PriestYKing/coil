@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17
+    container_name: coil-db
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    container_name: coil-redis
+    ports:
+      - "6379:6379"
