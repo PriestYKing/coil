@@ -24,13 +24,13 @@ func LoginHandler(db *sql.DB, ctx *context.Context, rdb *redis.Client, w http.Re
 
 	user, err := service.LoginService(db, u.Email, u.Password)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		http.Error(w, "User does not exist", http.StatusNotFound)
 		return
 	}
 
 	jwtToken, err := auth.CreateToken(u.Email)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		http.Error(w, "Error in JWT token", http.StatusInternalServerError)
 		return
 	}
 
@@ -80,7 +80,7 @@ func RegisterHandler(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	response := map[string]string{
-		"message":  "Login Successful",
+		"message":  "Registeration Successful",
 		"username": user.Username,
 		"email":    user.Email,
 	}
